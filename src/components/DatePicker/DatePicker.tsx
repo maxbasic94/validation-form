@@ -1,6 +1,6 @@
 import React, { Dispatch, useEffect } from 'react';
-import { VALIDATION_DATE_REGEXP } from '../../shared/constants';
 import { FormDataType, FormErrorsType } from '../../types/types';
+import { VALIDATION_DATE_REGEXP } from '../../shared/constants';
 import './DatePicker.sass';
 
 interface DatePickerProps {

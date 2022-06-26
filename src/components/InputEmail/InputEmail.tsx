@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Dispatch, useEffect } from 'react';
-import { VALIDATION_EMAIL_REGEXP } from '../../shared/constants';
 import { FormDataType, FormErrorsType } from '../../types/types';
+import { VALIDATION_EMAIL_REGEXP } from '../../shared/constants';
 import './InputEmail.sass';
 
 interface InputEmailProps {

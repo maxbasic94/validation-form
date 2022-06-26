@@ -2,10 +2,11 @@ import React, { useRef, useState } from 'react';
 
 import { ToastContainer } from 'react-toastify';
 
+import { FormDataType, FormErrorsType } from '../../types/types';
 import { INITIAL_INPUT_DATA_STATE, INITIAL_INPUT_ERRORS_STATE } from '../../shared/constants';
 import { toastConfig } from '../../shared/toastConfig';
-import { FormDataType, FormErrorsType } from '../../types/types';
 import { notify } from '../../helpers/notify';
+import { checkInputsForValidation } from '../../helpers/checkInputsForValidation';
 import { DatePicker } from '../DatePicker/DatePicker';
 import { InputEmail } from '../InputEmail/InputEmail';
 import { InputName } from '../InputName/InputName';
@@ -21,35 +22,36 @@ export const ValidationForm: React.FC = (): JSX.Element => {
   const inputDateRef = useRef<HTMLInputElement | null>(null);
 
   const handleClick = async (): Promise<void> => {
-    if (navigator.onLine) {
-      try {
-        const response = await fetch('https://httpbin.org/post', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
+    const isInputsValidate = checkInputsForValidation(formData, inputErrors, setInputErrors);
 
-        if (response.status !== 200) {
-          throw new Error(`${response.status} rawResponse.statusText`);
-        }
-        notify('sent successfully', 'success', toastConfig);
-        if (inputDateRef.current !== null) {
-          inputDateRef.current.type = 'text';
-        }
-        setFormData({
-          name: '',
-          email: '',
-          phoneNumber: '',
-          birthDay: '',
-          message: '',
-        });
-      } catch (error) {
-        notify((error as { message: string }).message, 'error', toastConfig);
-      }
-    } else {
+    if (!navigator.onLine) {
       notify('No internet connection', 'error', toastConfig);
+      return;
+    }
+    if (!isInputsValidate) {
+      notify('Fill inputs', 'error', toastConfig);
+      return;
+    }
+    try {
+      const response = await fetch('https://httpbin.org/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.status !== 200) {
+        throw new Error(`${response.status} rawResponse.statusText`);
+      }
+      if (inputDateRef.current !== null) {
+        inputDateRef.current.type = 'text';
+      }
+
+      notify('sent successfully', 'success', toastConfig);
+      setFormData(INITIAL_INPUT_DATA_STATE);
+    } catch (error) {
+      notify((error as { message: string }).message, 'error', toastConfig);
     }
   };
 
