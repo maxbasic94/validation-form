@@ -6,10 +6,10 @@ export type FormDataType = {
   message: string;
 };
 
-// export type FormErrorsType = {
-//   nameError: boolean;
-//   emailError: boolean;
-//   phoneNumberError: boolean;
-//   birthDayError: boolean;
-//   messageError: boolean;
-// };
+export type FormErrorsType = {
+  nameError: boolean;
+  emailError: boolean;
+  phoneNumberError: boolean;
+  birthDayError: boolean;
+  messageError: boolean;
+};

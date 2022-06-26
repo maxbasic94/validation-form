@@ -1,35 +1,24 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
-import { FormDataType } from '../../types/types';
+import { INITIAL_INPUT_DATA_STATE, INITIAL_INPUT_ERRORS_STATE } from '../../shared/constants';
+import { toastConfig } from '../../shared/toastConfig';
+import { FormDataType, FormErrorsType } from '../../types/types';
+import { notify } from '../../helpers/notify';
 import { DatePicker } from '../DatePicker/DatePicker';
 import { InputEmail } from '../InputEmail/InputEmail';
 import { InputName } from '../InputName/InputName';
 import { MessageArea } from '../MessageArea/MessageArea';
 import { PhoneNumber } from '../PhoneNumber/PhoneNumber';
+
+import 'react-toastify/dist/ReactToastify.css';
 import './ValidationForm.sass';
 
 export const ValidationForm: React.FC = (): JSX.Element => {
-  const [formData, setFormData] = useState<FormDataType>({
-    name: '',
-    email: '',
-    phoneNumber: '',
-    birthDay: '',
-    message: '',
-  });
-  // const [alarmMessage, setAlarmMessage] = useState('');
-  const notify = (message: string) =>
-    toast.error(message, {
-      position: 'bottom-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+  const [formData, setFormData] = useState<FormDataType>(INITIAL_INPUT_DATA_STATE);
+  const [inputErrors, setInputErrors] = useState<FormErrorsType>(INITIAL_INPUT_ERRORS_STATE);
+  const inputDateRef = useRef<HTMLInputElement | null>(null);
 
   const handleClick = async (): Promise<void> => {
     if (navigator.onLine) {
@@ -45,6 +34,10 @@ export const ValidationForm: React.FC = (): JSX.Element => {
         if (response.status !== 200) {
           throw new Error(`${response.status} rawResponse.statusText`);
         }
+        notify('sent successfully', 'success', toastConfig);
+        if (inputDateRef.current !== null) {
+          inputDateRef.current.type = 'text';
+        }
         setFormData({
           name: '',
           email: '',
@@ -53,20 +46,46 @@ export const ValidationForm: React.FC = (): JSX.Element => {
           message: '',
         });
       } catch (error) {
-        notify((error as { message: string }).message);
+        notify((error as { message: string }).message, 'error', toastConfig);
       }
     } else {
-      notify('No internet connection');
+      notify('No internet connection', 'error', toastConfig);
     }
   };
 
   return (
     <div className="ValidationForm-Container">
-      <InputName formData={formData} setFormData={setFormData} />
-      <InputEmail formData={formData} setFormData={setFormData} />
-      <PhoneNumber formData={formData} setFormData={setFormData} />
-      <DatePicker formData={formData} setFormData={setFormData} />
-      <MessageArea formData={formData} setFormData={setFormData} />
+      <InputName
+        formData={formData}
+        setFormData={setFormData}
+        inputErrors={inputErrors}
+        setInputErrors={setInputErrors}
+      />
+      <InputEmail
+        formData={formData}
+        setFormData={setFormData}
+        inputErrors={inputErrors}
+        setInputErrors={setInputErrors}
+      />
+      <PhoneNumber
+        formData={formData}
+        setFormData={setFormData}
+        inputErrors={inputErrors}
+        setInputErrors={setInputErrors}
+      />
+      <DatePicker
+        formData={formData}
+        setFormData={setFormData}
+        inputErrors={inputErrors}
+        setInputErrors={setInputErrors}
+        inputDateRef={inputDateRef}
+      />
+      <MessageArea
+        formData={formData}
+        setFormData={setFormData}
+        inputErrors={inputErrors}
+        setInputErrors={setInputErrors}
+      />
       <input
         className="ValidationForm-Input_submit"
         type="submit"
