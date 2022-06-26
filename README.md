@@ -1,7 +1,7 @@
 # Validation Form
 
 This application represents feedback form. \
-You can check how it works here: 
+You can check how it works here: https://validation-form-task.netlify.app
 
 ## How to run
 
