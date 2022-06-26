@@ -1,0 +1,35 @@
+@import "../../shared/colors.sass"
+
+.ValidationForm-TextArea_message
+    padding: 5px
+    outline: 0
+    border: 1px solid $lineColor
+
+    font-weight: 500
+    font-size: 20px
+    line-height: 20px
+    color: $primaryTextColor
+
+    resize: none
+    height: 200px
+
+.ValidationForm-TextArea_message:placeholder
+    font-weight: 500
+    font-size: 20px
+    color: $placeholerColor
+
+.ValidationForm-Span_message
+    visibility: hidden
+    margin: 0 10px
+    font-weight: 400
+    font-size: 16px
+    line-height: 24px
+    color: $errorColor
+
+.ValidationForm-Span_message-error
+    visibility: visible
+    margin: 0 10px
+    font-weight: 400
+    font-size: 16px
+    line-height: 24px
+    color: $errorColor
