@@ -4,25 +4,25 @@ import { FormDataType, FormErrorsType } from '../../types/types';
 import './InputName.sass';
 
 interface InputNameProps {
-  formData: FormDataType;
+  inputNameValue: string;
+  inputNameError: boolean;
   setFormData: Dispatch<React.SetStateAction<FormDataType>>;
-  inputErrors: FormErrorsType;
   setInputErrors: Dispatch<React.SetStateAction<FormErrorsType>>;
 }
 
 export const InputName: React.FC<InputNameProps> = ({
-  formData,
+  inputNameValue,
+  inputNameError,
   setFormData,
-  inputErrors,
   setInputErrors,
 }): JSX.Element => {
   useEffect(() => {
-    if (formData.name.length) {
-      formData.name.match(VALIDATION_NAME_REGEXP) === null
+    if (inputNameValue.length) {
+      inputNameValue.match(VALIDATION_NAME_REGEXP) === null
         ? setInputErrors((prev) => ({ ...prev, nameError: true }))
         : setInputErrors((prev) => ({ ...prev, nameError: false }));
     }
-  }, [formData.name, setInputErrors]);
+  }, [inputNameValue, setInputErrors]);
 
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -37,12 +37,12 @@ export const InputName: React.FC<InputNameProps> = ({
         className="ValidationForm-Input_firstLastNames"
         type="text"
         placeholder="You first and last name"
-        value={formData.name}
+        value={inputNameValue}
         onChange={handleOnChange}
       />
       <span
         className={
-          inputErrors.nameError
+          inputNameError
             ? 'ValidationForm-Span_firstLastNames-error'
             : 'ValidationForm-Span_firstLastNames'
         }

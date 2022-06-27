@@ -4,27 +4,27 @@ import { VALIDATION_DATE_REGEXP } from '../../shared/constants';
 import './DatePicker.sass';
 
 interface DatePickerProps {
-  formData: FormDataType;
-  setFormData: Dispatch<React.SetStateAction<FormDataType>>;
-  inputErrors: FormErrorsType;
-  setInputErrors: Dispatch<React.SetStateAction<FormErrorsType>>;
+  inputDateValue: string;
+  inputDateError: boolean;
   inputDateRef: React.LegacyRef<HTMLInputElement>;
+  setFormData: Dispatch<React.SetStateAction<FormDataType>>;
+  setInputErrors: Dispatch<React.SetStateAction<FormErrorsType>>;
 }
 
 export const DatePicker: React.FC<DatePickerProps> = ({
-  formData,
-  setFormData,
-  inputErrors,
-  setInputErrors,
+  inputDateValue,
+  inputDateError,
   inputDateRef,
+  setFormData,
+  setInputErrors,
 }): JSX.Element => {
   useEffect(() => {
-    if (formData.birthDay.length) {
-      formData.birthDay.match(VALIDATION_DATE_REGEXP) === null
+    if (inputDateValue.length) {
+      inputDateValue.match(VALIDATION_DATE_REGEXP) === null
         ? setInputErrors((prev) => ({ ...prev, birthDayError: true }))
         : setInputErrors((prev) => ({ ...prev, birthDayError: false }));
     }
-  }, [formData.birthDay, setInputErrors]);
+  }, [inputDateValue, setInputErrors]);
 
   const handleOnFocus = (event: React.FocusEvent<HTMLInputElement, Element>) => {
     event.target.type = 'date';
@@ -48,7 +48,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         type="text"
         placeholder="Your Birthday"
         required
-        value={formData.birthDay}
+        value={inputDateValue}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
         onChange={handleOnChange}
@@ -56,9 +56,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         ref={inputDateRef}
       />
       <span
-        className={
-          inputErrors.birthDayError ? 'ValidationForm-Span_date-error' : 'ValidationForm-Span_date'
-        }
+        className={inputDateError ? 'ValidationForm-Span_date-error' : 'ValidationForm-Span_date'}
       >
         Date is not selected
       </span>

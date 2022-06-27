@@ -4,25 +4,25 @@ import { FormDataType, FormErrorsType } from '../../types/types';
 import './PhoneNumber.sass';
 
 interface PhoneNumberProps {
-  formData: FormDataType;
+  phoneNumberValue: string;
+  phoneNumberError: boolean;
   setFormData: Dispatch<React.SetStateAction<FormDataType>>;
-  inputErrors: FormErrorsType;
   setInputErrors: Dispatch<React.SetStateAction<FormErrorsType>>;
 }
 
 export const PhoneNumber: React.FC<PhoneNumberProps> = ({
-  formData,
+  phoneNumberValue,
+  phoneNumberError,
   setFormData,
-  inputErrors,
   setInputErrors,
 }): JSX.Element => {
   useEffect(() => {
-    if (formData.phoneNumber.length) {
-      formData.phoneNumber.match(VALIDATION_PHONE_NUMBER_REGEXP) === null
+    if (phoneNumberValue.length) {
+      phoneNumberValue.match(VALIDATION_PHONE_NUMBER_REGEXP) === null
         ? setInputErrors((prev) => ({ ...prev, phoneNumberError: true }))
         : setInputErrors((prev) => ({ ...prev, phoneNumberError: false }));
     }
-  }, [formData.phoneNumber, setInputErrors]);
+  }, [phoneNumberValue, setInputErrors]);
 
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData((prev: FormDataType) => ({
@@ -36,12 +36,12 @@ export const PhoneNumber: React.FC<PhoneNumberProps> = ({
         className="ValidationForm-Input_phoneNumber"
         type="tel"
         placeholder="Your Phone Number"
-        value={formData.phoneNumber}
+        value={phoneNumberValue}
         onChange={handleOnChange}
       />
       <span
         className={
-          inputErrors.phoneNumberError
+          phoneNumberError
             ? 'ValidationForm-Span_phoneNumber-error'
             : 'ValidationForm-Span_phoneNumber'
         }

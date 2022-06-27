@@ -58,34 +58,34 @@ export const ValidationForm: React.FC = (): JSX.Element => {
   return (
     <div className="ValidationForm-Container">
       <InputName
-        formData={formData}
+        inputNameValue={formData.name}
+        inputNameError={inputErrors.nameError}
         setFormData={setFormData}
-        inputErrors={inputErrors}
         setInputErrors={setInputErrors}
       />
       <InputEmail
-        formData={formData}
+        inputEmailValue={formData.email}
+        inputEmailError={inputErrors.emailError}
         setFormData={setFormData}
-        inputErrors={inputErrors}
         setInputErrors={setInputErrors}
       />
       <PhoneNumber
-        formData={formData}
+        phoneNumberValue={formData.phoneNumber}
+        phoneNumberError={inputErrors.phoneNumberError}
         setFormData={setFormData}
-        inputErrors={inputErrors}
         setInputErrors={setInputErrors}
       />
       <DatePicker
-        formData={formData}
-        setFormData={setFormData}
-        inputErrors={inputErrors}
-        setInputErrors={setInputErrors}
+        inputDateValue={formData.birthDay}
+        inputDateError={inputErrors.birthDayError}
         inputDateRef={inputDateRef}
+        setFormData={setFormData}
+        setInputErrors={setInputErrors}
       />
       <MessageArea
-        formData={formData}
+        messageAreaValue={formData.message}
+        messageAreaError={inputErrors.messageError}
         setFormData={setFormData}
-        inputErrors={inputErrors}
         setInputErrors={setInputErrors}
       />
       <input

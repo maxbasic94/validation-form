@@ -3,24 +3,24 @@ import { FormDataType, FormErrorsType } from '../../types/types';
 import './MessageArea.sass';
 
 interface MessageAreaProps {
-  formData: FormDataType;
+  messageAreaValue: string;
+  messageAreaError: boolean;
   setFormData: Dispatch<React.SetStateAction<FormDataType>>;
-  inputErrors: FormErrorsType;
   setInputErrors: Dispatch<React.SetStateAction<FormErrorsType>>;
 }
 
 export const MessageArea: React.FC<MessageAreaProps> = ({
-  formData,
+  messageAreaValue,
+  messageAreaError,
   setFormData,
-  inputErrors,
   setInputErrors,
 }): JSX.Element => {
   useEffect(() => {
-    const messageLength = formData.message.length;
+    const messageLength = messageAreaValue.length;
     messageLength && (messageLength <= 10 || messageLength >= 300)
       ? setInputErrors((prev) => ({ ...prev, messageError: true }))
       : setInputErrors((prev) => ({ ...prev, messageError: false }));
-  }, [formData.message, setInputErrors]);
+  }, [messageAreaValue, setInputErrors]);
 
   const handleOnChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setFormData((prev: FormDataType) => ({
@@ -35,13 +35,11 @@ export const MessageArea: React.FC<MessageAreaProps> = ({
         className="ValidationForm-TextArea_message"
         placeholder="Type your message Here..."
         onChange={handleOnChange}
-        value={formData.message}
+        value={messageAreaValue}
       ></textarea>
       <span
         className={
-          inputErrors.messageError
-            ? 'ValidationForm-Span_message-error'
-            : 'ValidationForm-Span_message'
+          messageAreaError ? 'ValidationForm-Span_message-error' : 'ValidationForm-Span_message'
         }
       >
         Message must be between 10 and 300 characters long
