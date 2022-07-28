@@ -21,6 +21,14 @@ export const ValidationForm: React.FC = (): JSX.Element => {
   const [inputErrors, setInputErrors] = useState<FormErrorsType>(INITIAL_INPUT_ERRORS_STATE);
   const inputDateRef = useRef<HTMLInputElement | null>(null);
 
+  // useEffect(() => {
+  //   fetch(`https://api.airtable.com/v0/appjnq9X6fC9Aqwti/Table%201`, {
+  //     headers: { Authorization: 'Bearer keyjnjNjtBHTEzZ22' },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => console.log(data));
+  // }, []);
+
   const handleClick = async (): Promise<void> => {
     const isInputsValidate = checkInputsForValidation(formData, inputErrors, setInputErrors);
 
@@ -33,12 +41,13 @@ export const ValidationForm: React.FC = (): JSX.Element => {
       return;
     }
     try {
-      const response = await fetch('https://httpbin.org/post', {
+      const response = await fetch(`https://api.airtable.com/v0/appjnq9X6fC9Aqwti/Table%201`, {
         method: 'POST',
+        body: JSON.stringify({ records: [{ fields: formData }] }),
         headers: {
+          Authorization: `Bearer keyjnjNjtBHTEzZ22`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
       });
 
       if (response.status !== 200) {

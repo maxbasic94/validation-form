@@ -14,4 +14,4 @@ Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ## Task
-https://docs.google.com/document/d/1L67NGKeXMX6od7J1qgrh6lqQy_E7_SJhODUuXO00_84/edit
+https://docs.google.com/document/d/11g_eYwD_x0XES0eobbCIv5-QGkn8QJ61-e0G8FyVww4/edit
